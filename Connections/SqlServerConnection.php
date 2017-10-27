@@ -14,14 +14,15 @@ class SqlServerConnection extends Connection
      * Execute a Closure within a transaction.
      *
      * @param  \Closure  $callback
+     * @param  int  $attempts
      * @return mixed
      *
      * @throws \Throwable
      */
-    public function transaction(Closure $callback)
+    public function transaction(Closure $callback, $attempts = 1)
     {
         if ($this->getDriverName() == 'sqlsrv') {
-            return parent::transaction($callback);
+            return parent::transaction($callback, $attempts);
         }
 
         $this->pdo->exec('BEGIN TRAN');
